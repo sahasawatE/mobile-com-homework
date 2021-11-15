@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HW2</title>
+</head>
+<body>
+    <table>
+        <tr>
+            <td><p>รายได้สุทธิต่อปี</p></td>
+            <td><input type="number" id="incum" onchange="inputIncum()"/></td>
+            <td><p id="error" style="color: crimson;"></p></td>
+        </tr>
+        <tr>
+            <td><p>อัตราภาษีเงินได้</p></td>
+            <td><input type='text' id="tex" value="0" readonly/></td>
+        </tr>
+        <tr>
+            <td><p>เงินที่ต้องจ่าย</p></td>
+            <td><input type='text' id="toPay" value="0" readonly /></td>
+        </tr>
+    </table>
+    <script>
+        const rate = [150000,300000,500000,750000,1000000,2000000,5000000];
+        const tex = [0,5,10,15,20,25,30,35]
+        function inputIncum(){
+            var incum = document.getElementById('incum').value;
+            if(incum < 0){
+                document.getElementById("error").innerHTML="ต้องใส่เงินที่มีจำนวนมากกว่า 0"
+                document.getElementById("tex").value = "?";
+                document.getElementById("toPay").value = "?";
+            }
+            else{
+                document.getElementById("error").innerHTML=""
+                cal(incum)
+            }
+        }
+        function cal(incum){
+            let count = 0;
+            for(let i = 0; i < rate.length;i++){
+                if(incum - rate[i] > 0){
+                    count += 1;
+                }
+            };
+
+            if(tex[count] == 0){
+                document.getElementById("tex").value = "ไม่ต้องจ่ายภาษี"
+                document.getElementById("toPay").value = "ไม่ต้องจ่ายภาษี"
+            }
+            else{
+                document.getElementById("tex").value = tex[count].toString() + "%";
+                document.getElementById("toPay").value = (Number(tex[count])/100)*incum;
+            }
+        }
+    </script>
+</body>
+</html>
